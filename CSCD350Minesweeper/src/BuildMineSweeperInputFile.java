@@ -32,23 +32,15 @@ public class BuildMineSweeperInputFile {
 
                 builtOutputString += rows + " " + cols + "\r\n";
 
-                String[][] minesweeperArr = new String[rows][cols];
-
                 Random rand = new Random();
 
                 for(int i = 0; i < rows; i++) {
                     for(int j = 0; j < cols; j++) {
                         if(rand.nextInt(100) >= 80) {
-                            minesweeperArr[i][j] = "*";
+                            builtOutputString += "*";
                         }
                         else
-                            minesweeperArr[i][j] = ".";
-                    }
-                }
-
-                for(int i = 0; i < rows; i++) {
-                    for(int j = 0; j < cols; j++) {
-                        builtOutputString += minesweeperArr[i][j] + " ";
+                            builtOutputString += ".";
                     }
                     builtOutputString += "\r\n";
                 }
@@ -56,7 +48,7 @@ public class BuildMineSweeperInputFile {
 
                 inputBufferedWriter.write(builtOutputString);
 
-            }while(rows != 0 && cols != 0);
+            }while(rows > 0 && cols > 0);
 
             inputBufferedWriter.close();
 
