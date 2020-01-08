@@ -1,3 +1,7 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -7,40 +11,58 @@ public class BuildMineSweeperInputFile {
 
         Scanner kb = new Scanner(System.in);
 
-        do {
-            System.out.println("Enter rows then columns: ");
+        FileWriter inputFileWriter;
+        BufferedWriter inputBufferedWriter;
 
-            String rowsCols = kb.nextLine();
+        try {
+            inputFileWriter = new FileWriter("inputfile.txt", false);
+            inputBufferedWriter = new BufferedWriter(inputFileWriter);
 
-            String[] rowsColsArr = rowsCols.split(" ");
+            do {
+                System.out.println("Enter rows then columns: ");
 
-            rows = Integer.parseInt(rowsColsArr[0]);
-            cols = Integer.parseInt(rowsColsArr[1]);
+                String rowsCols = kb.nextLine();
 
-            String[][] minesweeperArr = new String[rows][cols];
+                String builtOutputString = "";
 
-            Random rand = new Random();
+                String[] rowsColsArr = rowsCols.split(" ");
 
-            for(int i = 0; i < rows; i++) {
-                for(int j = 0; j < cols; j++) {
-                    if(rand.nextInt() >= .8
-                    )
-                        minesweeperArr[i][j] = "*";
-                    else
-                        minesweeperArr[i][j] = ".";
+                rows = Integer.parseInt(rowsColsArr[0]);
+                cols = Integer.parseInt(rowsColsArr[1]);
+
+                builtOutputString += rows + " " + cols + "\r\n";
+
+                String[][] minesweeperArr = new String[rows][cols];
+
+                Random rand = new Random();
+
+                for(int i = 0; i < rows; i++) {
+                    for(int j = 0; j < cols; j++) {
+                        if(rand.nextInt(100) >= 80) {
+                            minesweeperArr[i][j] = "*";
+                        }
+                        else
+                            minesweeperArr[i][j] = ".";
+                    }
                 }
-            }
 
-            for(int i = 0; i < rows; i++) {
-                for(int j = 0; j < cols; j++) {
-                    System.out.print(minesweeperArr[i][j] + " ");
+                for(int i = 0; i < rows; i++) {
+                    for(int j = 0; j < cols; j++) {
+                        builtOutputString += minesweeperArr[i][j] + " ";
+                    }
+                    builtOutputString += "\r\n";
                 }
 
-                System.out.println();
-            }
 
+                inputBufferedWriter.write(builtOutputString);
 
-        }while(rows != 0 && cols != 0);
+            }while(rows != 0 && cols != 0);
+
+            inputBufferedWriter.close();
+
+        } catch (IOException e) {
+            System.out.println("IOException in opening input file");
+        }
 
     }
 }
